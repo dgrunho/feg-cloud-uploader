@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using FEG_Cloud_Webservices.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Mvc;
@@ -14,9 +15,10 @@ namespace FEG_Cloud_Webservices.Controllers
     public class FilesController : ControllerBase
     {
         // GET api/files
-        [HttpGet("{id}")]
-        public ActionResult<IEnumerable<string>> Get(string id)
+        public ActionResult<IEnumerable<string>> Get()
         {
+
+            object obj = Request.Query["req"];
             
             Request.EnableRewind();
             using (var reader = new StreamReader(Request.Body))
