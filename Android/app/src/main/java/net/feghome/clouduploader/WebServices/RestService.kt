@@ -32,7 +32,7 @@ class RestService {
     }
 
     companion object {
-        public val URL = "http://172.16.132.51/FEG/"
+        public val URL = "http://172.16.132.38/FEG/"
         public val USER = ""
         public val PASS = ""
     }
@@ -43,10 +43,10 @@ public interface apiService {
     @GET("api/values")
     fun getRoutes(): Call<MutableList<String?>>
 
-    @GET("api/values")
-    fun getProcessionsTracker(@Query("id") id: String): Call<String?>
+    @GET("api/files")
+    fun getUploadList(@Query("req") req: FilesCompare): Call<MutableList<String?>>
 
-    @POST("api/values")
-    fun postLocation(@Body body: List<String>): Call<String>
+    @POST("api/files")
+    fun postDeviceFiles(@Body body: FilesCompare): Call<String?>
 
 }

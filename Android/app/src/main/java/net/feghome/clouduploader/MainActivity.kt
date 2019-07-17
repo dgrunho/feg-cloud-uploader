@@ -4,8 +4,10 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.Settings
 import net.feghome.clouduploader.Utils.ManageFiles
 import net.feghome.clouduploader.Utils.ManagePermissions
+import net.feghome.clouduploader.WebServices.FilesCompare
 import net.feghome.clouduploader.WebServices.ServiceCalls
 
 
@@ -41,6 +43,14 @@ class MainActivity : AppCompatActivity() {
         sevices = ServiceCalls(this)
         files = ManageFiles(this)
 
+        val deviceID = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
+
+        var fl: FilesCompare = FilesCompare(deviceID, ArrayList())
+        fl.files.add("a")
+        fl.files.add("b")
+        fl.files.add("c")
+
+        sevices.getUploadList(fl)
 
         //sevices.getValues()
         /*var fUtil: ManageFiles = ManageFiles(this)

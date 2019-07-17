@@ -12,16 +12,13 @@ import java.io.*
 import java.security.MessageDigest
 
 
-class ManageFiles(context: Context) {
+class ManageFiles(currentContext: Context) {
+    var context = currentContext
     var allFilesList: ArrayList<String> = ArrayList()
     var allImagesList: ArrayList<String> = ArrayList()
     var allVideosList: ArrayList<String> = ArrayList()
 
-    init {
-        getMultimediaList(context)
-    }
-
-    fun getMultimediaList(context: Context) {
+    fun getMultimediaList() {
 
         var volumeList: ArrayList<File> = ArrayList()
         val storageManager: StorageManager = context.getSystemService(Context.STORAGE_SERVICE) as StorageManager

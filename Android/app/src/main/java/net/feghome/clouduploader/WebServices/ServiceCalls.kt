@@ -7,24 +7,24 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ServiceCalls(context: Context) {
-    var ctx: Context = context
+class ServiceCalls(currentContext: Context) {
+    var context: Context = currentContext
 
-    fun getValues() {
+    fun getUploadList(files: FilesCompare) {
         var restService = RestService()
-        val call = restService.service.getRoutes()
-        call.enqueue(object : Callback<MutableList<String?>> {
-            override fun onResponse(call: Call<MutableList<String?>>, response: Response<MutableList<String?>>) {
+        val call = restService.service.postDeviceFiles(files)
+        call.enqueue(object : Callback<String?> {
+            override fun onResponse(call: Call<String?>, response: Response<String?>) {
                 if (response.code() == 200) {
                     var response = response.body()
                     var a: String = ""
                 } else {
-                    ctx.toast("Erro: " + response.raw().toString())
+                    context.toast("Erro: " + response.raw().toString())
                 }
             }
 
-            override fun onFailure(call: Call<MutableList<String?>>, error: Throwable) {
-                ctx.toast("Erro: " +  error.message.toString())
+            override fun onFailure(call: Call<String?>, error: Throwable) {
+                context.toast("Erro: " +  error.message.toString())
             }
         })
     }
