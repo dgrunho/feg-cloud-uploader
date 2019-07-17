@@ -1,16 +1,18 @@
-package net.feghome.clouduploader
+package net.feghome.clouduploader.Utils
 
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.os.Build
 import android.os.Environment
 import android.os.storage.StorageManager
 import android.os.storage.StorageVolume
-import java.io.File
 import android.webkit.MimeTypeMap
+import android.util.Log
+import java.io.*
+import java.security.MessageDigest
 
 
-
-class FileUtil(context: Context) {
+class ManageFiles(context: Context) {
     var allFilesList: ArrayList<String> = ArrayList()
     var allImagesList: ArrayList<String> = ArrayList()
     var allVideosList: ArrayList<String> = ArrayList()
@@ -58,6 +60,7 @@ class FileUtil(context: Context) {
                         if ( fileMime != null) {
                             if (fileMime!!.startsWith("image")){
                                 allImagesList.add(file.absolutePath)
+                                //allImgsList.add(FileChecksum(file.absolutePath, calculateChecksum(file)))
                             }
                             if (fileMime!!.startsWith("video")){
                                 allVideosList.add(file.absolutePath)
@@ -78,5 +81,60 @@ class FileUtil(context: Context) {
             type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension)
         }
         return type
+    }
+
+    fun calculateChecksum(updateFile: File): String? {
+        val iStrm: InputStream
+        try {
+            iStrm = FileInputStream(updateFile)
+        } catch (e: Exception) {
+            Log.e(TAG, "Exception while getting FileInputStream", e)
+            return null
+        }
+
+        try {
+            val mGraphicBuffer = ByteArrayOutputStream()
+            val buf = ByteArray(1024)
+            while (true) {
+                val readNum = iStrm.read(buf)
+                if (readNum == -1) break
+                mGraphicBuffer.write(buf, 0, readNum)
+            }
+
+            return generateChecksum(mGraphicBuffer, "SHA-512")
+        } catch (e: IOException) {
+            throw RuntimeException("Unable to process file for SHA-512", e)
+        } finally {
+            try {
+                iStrm.close()
+            } catch (e: IOException) {
+                Log.e(TAG, "Exception on closing the input stream", e)
+            }
+
+        }
+    }
+
+    private fun generateChecksum(data: ByteArrayOutputStream, algorithm: String): String {
+        try {
+            val digest: MessageDigest = MessageDigest.getInstance(algorithm)
+            val hash: ByteArray = digest.digest(data.toByteArray())
+            return printableHexString(hash)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return ""
+    }
+
+    fun printableHexString(data: ByteArray): String {
+        // Create Hex String
+        val hexString: StringBuilder = StringBuilder()
+        for (aMessageDigest:Byte in data) {
+            var h: String = Integer.toHexString(0xFF and aMessageDigest.toInt())
+            while (h.length < 2)
+                h = "0$h"
+            hexString.append(h)
+        }
+        return hexString.toString()
     }
 }

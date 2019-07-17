@@ -4,11 +4,17 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import net.feghome.clouduploader.Utils.ManageFiles
+import net.feghome.clouduploader.Utils.ManagePermissions
+import net.feghome.clouduploader.WebServices.ServiceCalls
 
 
 class MainActivity : AppCompatActivity() {
     private lateinit var managePermissions: ManagePermissions
     private val PermissionsRequestCode = 123
+    private lateinit var sevices: ServiceCalls
+    private lateinit var files: ManageFiles
+
 
 
 
@@ -26,11 +32,23 @@ class MainActivity : AppCompatActivity() {
         managePermissions = ManagePermissions(this, list, PermissionsRequestCode)
 
         if (managePermissions.checkPermissions() == PackageManager.PERMISSION_GRANTED) {
-            var fUtil: FileUtil = FileUtil(this)
-            var fileList:ArrayList<String> = fUtil!!.allImagesList
-            fileList.forEach {
+            initialize()
 
-            }
         }
-    }ç
+    }
+
+    fun initialize(){
+        sevices = ServiceCalls(this)
+        files = ManageFiles(this)
+
+
+        //sevices.getValues()
+        /*var fUtil: ManageFiles = ManageFiles(this)
+        var fileList:ArrayList<String> = fUtil!!.allImagesList
+        fileList.forEach {
+
+        }*/
+    }
+
+
 }

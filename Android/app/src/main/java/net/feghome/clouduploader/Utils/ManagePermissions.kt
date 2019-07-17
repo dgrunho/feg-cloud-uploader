@@ -1,4 +1,4 @@
-package net.feghome.clouduploader
+package net.feghome.clouduploader.Utils
 
 import android.app.Activity
 import android.content.pm.PackageManager
