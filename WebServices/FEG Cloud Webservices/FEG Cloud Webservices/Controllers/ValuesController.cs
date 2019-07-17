@@ -26,8 +26,9 @@ namespace FEG_Cloud_Webservices.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody] string value)
+        public ActionResult<IEnumerable<string>> Post([FromBody] string value)
         {
+            return new string[] { "value1", "value2" };
         }
 
         // PUT api/values/5
