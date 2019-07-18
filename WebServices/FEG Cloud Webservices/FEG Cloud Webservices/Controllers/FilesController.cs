@@ -37,7 +37,7 @@ namespace FEG_Cloud_Webservices.Controllers
 
         // POST api/files
         [HttpPost]
-        public ActionResult<IEnumerable<string>> Post([FromBody] string value)
+        public ActionResult<IEnumerable<string>> Post([FromBody] FilesCompare value)
         {
             return new string[] { "value1", "value2" };
         }
