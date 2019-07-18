@@ -13,8 +13,10 @@ class ServiceCalls(currentContext: Context) {
     fun getUploadList(files: FilesCompare) {
         var restService = RestService()
         val call = restService.service.postDeviceFiles(files)
-        call.enqueue(object : Callback<String?> {
-            override fun onResponse(call: Call<String?>, response: Response<String?>) {
+
+
+        call.enqueue(object : Callback<MutableList<String?>> {
+            override fun onResponse(call: Call<MutableList<String?>>, response: Response<MutableList<String?>>) {
                 if (response.code() == 200) {
                     var response = response.body()
                     var a: String = ""
@@ -23,7 +25,7 @@ class ServiceCalls(currentContext: Context) {
                 }
             }
 
-            override fun onFailure(call: Call<String?>, error: Throwable) {
+            override fun onFailure(call: Call<MutableList<String?>>, error: Throwable) {
                 context.toast("Erro: " +  error.message.toString())
             }
         })

@@ -1,6 +1,7 @@
 package net.feghome.clouduploader.WebServices
 
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -11,15 +12,20 @@ import retrofit2.http.POST
 import retrofit2.http.Query
 import java.util.concurrent.TimeUnit
 
+
+
 class RestService {
     val service: apiService
 
     init {
+
         val client = OkHttpClient.Builder()
             //.addInterceptor(BasicAuthInterceptor(USER, PASS))
             .connectTimeout(60, TimeUnit.SECONDS)
             .readTimeout(60, TimeUnit.SECONDS)
             .build()
+
+
 
         val retrofit = Retrofit.Builder()
             .baseUrl(URL)
@@ -32,7 +38,7 @@ class RestService {
     }
 
     companion object {
-        public val URL = "http://172.16.132.38/FEG/"
+        public val URL = "http://172.16.132.49/FEG/"
         public val USER = ""
         public val PASS = ""
     }
@@ -47,6 +53,6 @@ public interface apiService {
     fun getUploadList(@Query("req") req: FilesCompare): Call<MutableList<String?>>
 
     @POST("api/files")
-    fun postDeviceFiles(@Body body: FilesCompare): Call<String?>
+    fun postDeviceFiles(@Body body: FilesCompare): Call<MutableList<String?>>
 
 }

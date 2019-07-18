@@ -42,13 +42,12 @@ class MainActivity : AppCompatActivity() {
     fun initialize(){
         sevices = ServiceCalls(this)
         files = ManageFiles(this)
+        files.getMultimediaList()
 
         val deviceID = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
 
-        var fl: FilesCompare = FilesCompare(deviceID, ArrayList())
-        fl.files.add("a")
-        fl.files.add("b")
-        fl.files.add("c")
+        var fl = FilesCompare(deviceID, ArrayList())
+        fl.files = files.allImagesList
 
         sevices.getUploadList(fl)
 
